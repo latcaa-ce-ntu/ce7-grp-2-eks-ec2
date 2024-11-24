@@ -1,6 +1,5 @@
-# Public Subnet Configuration
+# Public Subnet Configuration Block
 resource "aws_subnet" "pub_subnets" {
-  #count  = 3
   count                   = length(var.pub_subnet_cidrs)
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = var.pub_subnet_cidrs[count.index]
@@ -12,11 +11,12 @@ resource "aws_subnet" "pub_subnets" {
   }
 }
 
-# Route Table for Public Subnets
+# Public Route Table Configuration
 resource "aws_route_table" "pub_RT" {
   vpc_id = aws_vpc.main_vpc.id
   route {
     cidr_block = "0.0.0.0/0"
+    # Through the Internet Gateway
     gateway_id = aws_internet_gateway.igw.id
   }
 
@@ -25,7 +25,7 @@ resource "aws_route_table" "pub_RT" {
   }
 }
 
-# Associating Public Subnets with the Route Table
+# Public Route Table Association
 resource "aws_route_table_association" "pub_RT_assoc" {
   #count          = 3
   count          = length(aws_subnet.pub_subnets)
@@ -33,7 +33,8 @@ resource "aws_route_table_association" "pub_RT_assoc" {
   route_table_id = aws_route_table.pub_RT.id
 }
 
-# Private Subnet Configuration
+
+# Private Subnet Configuration Block
 resource "aws_subnet" "pvt_subnets" {
   count             = length(var.pvt_subnet_cidrs)
   vpc_id            = aws_vpc.main_vpc.id
@@ -45,11 +46,13 @@ resource "aws_subnet" "pvt_subnets" {
   }
 }
 
+# Private Route Table Configuration
 resource "aws_route_table" "pvt_RT" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
+    # Through the NAT Gateway for secure internet access
     nat_gateway_id = aws_nat_gateway.nat_gw.id
   }
 
@@ -58,6 +61,7 @@ resource "aws_route_table" "pvt_RT" {
   }
 }
 
+# Private Route Table Association
 resource "aws_route_table_association" "pvt_RT_assoc" {
   count          = length(aws_subnet.pvt_subnets)
   subnet_id      = aws_subnet.pvt_subnets[count.index].id

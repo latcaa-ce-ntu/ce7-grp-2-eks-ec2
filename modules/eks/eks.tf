@@ -21,13 +21,13 @@ resource "aws_eks_cluster" "ce7_grp_2_eks" {
 resource "aws_eks_node_group" "ce7_grp_2_node_group" {
   cluster_name    = aws_eks_cluster.ce7_grp_2_eks.name
   node_group_name = "ce7-grp-2-node-group"
-  node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = var.private_subnet_ids
+  node_role_arn   = aws_iam_role.eks_node_role.arn # Allows nodes permission to interact with AWS Services
+  subnet_ids      = var.private_subnet_ids # Nodes are placed in Pvt Subnets
 
   scaling_config {
-    desired_size = 2
-    max_size     = 3
-    min_size     = 1
+    desired_size = 2 
+    max_size     = 3 # Max no. of nodes during high load
+    min_size     = 1 # Min no. of nodes to maintain
   }
 
   instance_types = ["t3.medium"]
@@ -36,5 +36,8 @@ resource "aws_eks_node_group" "ce7_grp_2_node_group" {
     aws_iam_role_policy_attachment.eks_node_policy,
     aws_iam_role_policy_attachment.eks_cni_policy,
     aws_iam_role_policy_attachment.eks_container_registry
+    # node_policy = basic nodes operations
+    # cni_policy = Networking functionality
+    # container_registry = Access to ECR to pull container images
   ]
 }

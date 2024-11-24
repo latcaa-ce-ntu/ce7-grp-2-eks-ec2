@@ -1,8 +1,11 @@
+# Main Terraform Configuration File
+# This file orchestrates the overall infrastructure deployment by combining different modules
 provider "aws" {
   region = var.region
 }
 
-# VPC Module
+# Network Module Configuration
+# Creates the VPC and associated networking components
 module "network" {
   source               = "./modules/network"
   vpc_cidr             = var.vpc_cidr
@@ -13,6 +16,8 @@ module "network" {
   allowed_ingress_cidr = var.allowed_ingress_cidr
 }
 
+# EKS (Elastic Kubernetes Service) Module Configuration
+# Sets up the Kubernetes cluster and related components
 module "eks" {
   source             = "./modules/eks"
   vpc_id             = module.network.vpc_id
@@ -21,3 +26,22 @@ module "eks" {
   subnet_ids         = concat(module.network.public_subnet_ids, module.network.private_subnet_ids)
   ecr_repository_url = var.ecr_repository_url
 }
+
+# Infrastructure Overview:
+#
+# 1. Network Module:
+#    - Creates VPC and networking infrastructure
+#    - Sets up public and private subnets
+#    - Configures routing and security
+#    - Enables high availability across AZs
+#
+# 2. EKS Module:
+#    - Deploys Kubernetes cluster
+#    - Sets up node groups
+#    - Configures IAM roles and policies
+#    - Integrates with VPC networking
+#
+# 3. Module Dependencies:
+#    - EKS module depends on Network module
+#    - Uses outputs from Network module for configuration
+#    - Ensures proper resource ordering

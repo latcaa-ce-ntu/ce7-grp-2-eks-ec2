@@ -41,21 +41,19 @@ resource "aws_iam_role" "eks_node_role" {
   })
 }
 
-
-
-
-# 
+# - eks_node_policy: Basic node operations
 resource "aws_iam_role_policy_attachment" "eks_node_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" # Self managed policy for EKS clusters
-  role       = aws_iam_role.eks_node_role.name                     # 
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" 
+  role       = aws_iam_role.eks_node_role.name                      
 }
 
-# 
+# - eks_cni_policy: Networking functionality
 resource "aws_iam_role_policy_attachment" "eks_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.eks_node_role.name
 }
 
+# - eks_container_registry: Access to Amazon ECR for pulling container images
 resource "aws_iam_role_policy_attachment" "eks_container_registry" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_node_role.name
