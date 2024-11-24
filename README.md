@@ -1,5 +1,6 @@
-# CE7 Group 2 Capstone Project
+![Alt Text](https://github.com/lann87/cloud_infra_eng_ntu_coursework_alanp/blob/main/.misc/ntu_logo.png)  
 
+# CE7 Group 2 Capstone Project
 
 ## Dev/UAT/Prod Github Branch strategy
 
@@ -62,34 +63,30 @@ https://blog.clouddrove.com/github-actions-openid-connect-the-key-to-aws-authent
 
 This repository contains Terraform files.
 
-
-project-root/
-├── .terraform/                       # Terraform hidden directory for internal files
-├── .gitignore                        # Ignore Terraform state files, .terraform directory, etc.
-├── backend.tf                        # Configures the backend for storing the Terraform state file
-├── main.tf                           # Main configuration file for calling all modules
-├── variables.tf                      # Declares all the variables used across modules
-├── outputs.tf                        # Outputs from the modules or resources to use externally
-├── provider.tf                       # AWS provider configuration
-├── terraform.tfvars                  # Contains values for the variables declared in variables.tf
-├── modules/                          # Directory to hold all reusable Terraform modules
-│   ├── alb/                          # ALB module
-│   │   ├── alb.tf                    # ALB resources
-│   │   ├── variables.tf              # ALB module variables
-│   │   └── outputs.tf                # ALB module outputs (e.g., ALB DNS name)
-│   ├── ecr/                          # ECR module
-│   │   ├── ecr.tf                    # ECR repository resources
-│   │   ├── variables.tf              # ECR module variables
-│   │   └── outputs.tf                # ECR module outputs
-│   ├── ecs/                          # ECS module
-│   │   ├── ecs.tf                    # ECS cluster, task definitions, service
-│   │   ├── variables.tf              # ECS module variables
-│   │   └── outputs.tf                # ECS module outputs (e.g., ECS cluster ARN)
-│   └── vpc/                          # VPC module
-│       ├── vpc.tf                    # VPC, subnets, and related resources
-│       ├── variables.tf              # VPC module variables
-│       └── outputs.tf                # VPC module outputs (e.g., VPC ID, subnet IDs)
-├── iam.tf                            # IAM roles and policies for ECS task execution and services
-├── network.tf                        # Security groups and networking configurations
-├── container-definitions.json        # ECS task container definitions file (if needed)
-└── README.md                         # Documentation for the setup and usage
+project-root/ (grp2-capstone/devops-terraform-eks-2mod/)  
+├── modules/  
+│   ├── eks/  
+│   │   ├── eks.tf          # EKS cluster configuration  
+│   │   ├── iam.tf          # IAM roles and policies for EKS  
+│   │   ├── lb.tf           # Load balancer configuration  
+│   │   ├── outputs.tf      # EKS module outputs  
+│   │   ├── security.tf     # Security groups for EKS  
+│   │   └── variables.tf    # EKS module variables  
+│   └── network/  
+│       ├── network.tf      # VPC, subnets configuration  
+│       ├── outputs.tf      # Network module outputs  
+│       ├── variables.tf    # Network module variables  
+│       └── vpc.tf         # VPC specific resources  
+├── .gitignore              # Git ignore patterns  
+├── terraform/              # Terraform backend configuration  
+├── app.py                  # Application code  
+├── Dockerfile             # Docker configuration  
+├── ecr.tf                 # ECR repository configuration  
+├── hello_there.py         # Sample application  
+├── main.tf               # Main configuration file  
+├── outputs.tf            # Root module outputs  
+├── provider.tf           # AWS provider configuration  
+├── README.md             # Project documentation  
+├── terraform.tfstate     # Terraform state file  
+├── terraform.tfstate.backup # Terraform state backup  
+└── variables.tf          # Root module variables  
