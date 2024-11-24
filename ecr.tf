@@ -1,6 +1,6 @@
 # Create an Elastic Container Registry (ECR) repository to store Docker images
 resource "aws_ecr_repository" "ce7_grp_2_webapp" {
-  name = var.ecr_repo_name
+  name                 = var.ecr_repo_name
   image_tag_mutability = "MUTABLE"
 
   # Automatically scan images for vulnerabilities when they are pushed

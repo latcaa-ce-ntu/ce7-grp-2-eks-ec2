@@ -3,8 +3,8 @@ resource "aws_lb" "ce7_grp_2_lb" {
   name               = var.lb_name
   internal           = false
   load_balancer_type = "application"
-  security_groups = var.security_group_ids
-  subnets = var.public_subnet_ids
+  security_groups    = [aws_security_group.lb_sg.id]
+  subnets            = var.public_subnet_ids
 
   tags = {
     Name = var.lb_name
@@ -41,7 +41,7 @@ resource "aws_lb_target_group" "ce7_grp_2_targrp" {
     interval = 30
 
     # Path for health check requests
-    path = "/"
+    path                = "/"
     protocol            = var.lb_protocol
     timeout             = 5
     healthy_threshold   = 2

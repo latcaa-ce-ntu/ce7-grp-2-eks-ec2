@@ -20,3 +20,27 @@ variable "private_subnet_ids" {
 variable "ecr_repository_url" {
   type = string
 }
+
+variable "lb_name" {
+  description = "Name of LB"
+  type        = string
+  default     = "ce7-grp-2-lb"
+}
+
+variable "lb_listener_port" {
+  description = "Port for LB Listener"
+  type        = number
+  default     = 80
+}
+
+variable "lb_target_port" {
+  description = "Port for LB target group"
+  type        = number
+  default     = 80
+}
+
+variable "lb_protocol" {
+  description = "Protocol for LB listener and target group"
+  type        = string
+  default     = "HTTP"
+}

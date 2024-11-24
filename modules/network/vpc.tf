@@ -16,6 +16,20 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.pub_subnets[0].id # Attach to first public subnet
+
+  tags = {
+    Name = "ce7_grp_2_nat_gw"
+  }
+}
+
+
 data "aws_vpc" "main_vpc" {
   # Retrieves the details of the created VPC using its ID
   id = aws_vpc.main_vpc.id

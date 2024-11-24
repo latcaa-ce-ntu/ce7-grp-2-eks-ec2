@@ -9,7 +9,3 @@ output "public_subnet_ids" {
 output "private_subnet_ids" {
   value = aws_subnet.pvt_subnets[*].id
 }
-
-output "eks_security_group_id" {
-  value = aws_security_group.eks_sg.id
-}
